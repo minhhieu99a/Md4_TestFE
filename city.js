@@ -13,6 +13,7 @@ function ShowAllCity() {
                     `<td>${data[i].country.name}</td>` +
                     `<td><button onclick="deleteCity(${data[i].id})" data-bs-toggle="modal" >Delete</button><td/>
                  <td><button type="button" onclick="showEditForm(${data[i].id})" data-bs-toggle="modal" data-bs-target="#myModal">Update</button></td>` +
+                    `<td><button type="button" onclick="showDetails(${data[i].id})" data-bs-toggle="modal" data-bs-target="#myModal">Detail</button></td>`+
                     `</tr>`
             }
             $("#showList").html(content)
@@ -84,6 +85,20 @@ function allCountry() {
 function showEditForm(id) {
     let content = `<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="updateCity(${id})">Update</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>`
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/city/${id}`,
+        success: function (city) {
+            $(`#name1`).val(city.name),
+                $(`#area1`).val(city.area),
+                $(`#gdp1`).val(city.gdp),
+                $(`#population1`).val(city.population),
+                $(`#country1`).val(city.country.name)
+            $("#action").html(content)
+        }
+    })
+}
+function showDetails(id) {
     $.ajax({
         type: "GET",
         url: `http://localhost:8080/city/${id}`,
